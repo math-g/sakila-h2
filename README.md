@@ -1,9 +1,14 @@
 #Sakila-H2
 
-This is the database found at https://github.com/maxandersen/sakila-h2
-for which I retrieved the script that was missing.
+This is the database found at https://github.com/maxandersen/sakila-h2 ported to H2 version 1.4.197, as it was not working with this recent version (got org.h2.jdbc.JdbcSQLException: Unique index or primary key violation starting with foreign keys on FILM_ACTOR table).
+I also retrieved the script that was missing.
 
-I use it in unit tests and found that the setup was not explicit in the H2 docs so I share it here. Examples are in groovy.
+I use it for unit testing in different projects, and found that the setup was not explicit in the H2 docs so I share it here. Examples are in groovy.
+
+`build.gradle` :
+```
+compile 'com.h2database:h2:1.4.197'
+```
 
 - **Server mode** :
 Prefered mode when using the whole database as it has a quick startup.
@@ -13,7 +18,7 @@ Only absolute path is supported for `-baseDir` option.
 import org.h2.tools.Server
 
 Server server = Server.createTcpServer("-ifExists", "-baseDir", "/path/to/folder/containing/.db/file").start()
-Sql sql = Sql.newInstance( "jdbc:h2:tcp://localhost/sakila", "sa", "", "org.h2.Driver")
+Sql sql = Sql.newInstance( "jdbc:h2:tcp://localhost/./sakila", "sa", "", "org.h2.Driver")
 ```
 
 - **Embedded mode** :
@@ -26,4 +31,8 @@ import java.nio.file.Paths
 
 Sql sql = Sql.newInstance( "jdbc:h2:mem:sakila", "org.h2.Driver")
 sql.execute(new String(Files.readAllBytes(Paths.get("src/test/resources/sakila-script.sql")), "UTF-8"))
-```		
+```	
+
+You can also use the database with the H2 Console, running `run_sakila-h2.sh` script (Windows 10 users should use the Ubuntu app, install java and cd to /mnt/c/path/to/db/file).
+Go to http://localhost:8082
+You can then for instance use the embedded mode, JDBC URL : jdbc:h2:./sakila, password : sa
