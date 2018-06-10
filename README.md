@@ -1,13 +1,17 @@
-#Sakila-H2
+## Sakila-H2
 
-This is the database found at https://github.com/maxandersen/sakila-h2 ported to H2 version 1.4.197, as it was not working with this recent version (got org.h2.jdbc.JdbcSQLException: Unique index or primary key violation starting with foreign keys on FILM_ACTOR table).
+This is the database found at https://github.com/maxandersen/sakila-h2
+
+Use for now with H2 1.4.196, as 197 has issues with foreign keys (got org.h2.jdbc.JdbcSQLException: Unique index or primary key violation - starting with foreign keys on FILM_ACTOR table).
+See https://github.com/h2database/h2database/issues/1073
+
 I also retrieved the script that was missing.
 
 I use it for unit testing in different projects, and found that the setup was not explicit in the H2 docs so I share it here. Examples are in groovy.
 
 `build.gradle` :
 ```
-compile 'com.h2database:h2:1.4.197'
+compile 'com.h2database:h2:1.4.196'
 ```
 
 - **Server mode** :
